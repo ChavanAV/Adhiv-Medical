@@ -105,7 +105,7 @@ class DBHelper {
 
   Future<List<Map<String, dynamic>>> myQuery() async {
     await initDatabase();
-    return await empDb.query('emp', where: "name = 'C'");
+    return await empDb.query('emp', where: "name = 'A'");
   }
 
   Future<List<Map<String, dynamic>>> myAllDataQuery() async {
@@ -195,7 +195,7 @@ class DBHelper {
     // Export to CSV
     final csvFile = File('$filePath.csv');
     String csvData = const ListToCsvConverter().convert([
-      [/*'ID',*/ 'Name', 'rate', 'stock', 'currentStock', 'outStock' 'Date'],
+      [/*'ID',*/ 'Name', 'rate', 'stock', 'currentStock', 'outStock', 'Date'],
       for (var row in data)
         [
           // row.id.toString(),

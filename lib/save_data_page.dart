@@ -1,3 +1,4 @@
+import 'package:adhiv_medical/data_table_screen.dart';
 import 'package:adhiv_medical/mk_reciept_page.dart';
 import 'package:adhiv_medical/product_list_page.dart';
 import 'package:flutter/material.dart';
@@ -87,6 +88,16 @@ class _SaveDataPageState extends State<SaveDataPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Database Example'), actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const DataTablePage(),
+                ));
+          },
+          child: const Text('View Table'),
+        ),
         TextButton(
           onPressed: _navigateToProductListPage,
           child: const Text('View Stock'),
