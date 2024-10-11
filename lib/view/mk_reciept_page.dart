@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'attribute.dart';
-import 'db_helper.dart';
+import '../controller/db_helper.dart';
+import '../model/product_model.dart';
+import '../util/decoration.dart';
 
 class MkReceiptPage extends StatefulWidget {
   const MkReceiptPage({
@@ -32,7 +33,11 @@ class _MkReceiptPageState extends State<MkReceiptPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Receipt Page'),
+        title: Text(
+          'Receipt Page',
+          style: TextStyle(color: appBarTextStyle),
+        ),
+        backgroundColor: accentCanvasColor,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(200.0),
@@ -41,10 +46,12 @@ class _MkReceiptPageState extends State<MkReceiptPage> {
           children: [
             TextField(
               controller: nameController,
+              style: TextStyle(color: appBarTextStyle),
               decoration: const InputDecoration(labelText: 'Name'),
             ),
             TextField(
               controller: quantityController,
+              style: TextStyle(color: appBarTextStyle),
               decoration: const InputDecoration(labelText: 'Quantity'),
               keyboardType: TextInputType.number,
             ),

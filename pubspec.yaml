@@ -37,10 +37,14 @@ dependencies:
   cupertino_icons: ^1.0.2
   sqflite_common_ffi: ^2.3.2
   path_provider_windows: ^2.2.1
+  path_provider: ^2.1.4
   pdf: ^3.10.7
   csv: ^5.1.1
   google_fonts: ^6.1.0
   intl: ^0.17.0
+  sidebarx: ^0.17.1
+  drop_down_search_field: ^1.0.6
+  dropdown_search: ^6.0.1
 
 
 dev_dependencies:

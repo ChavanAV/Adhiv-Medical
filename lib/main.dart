@@ -1,4 +1,4 @@
-import 'package:adhiv_medical/save_data_page.dart';
+import 'package:adhiv_medical/view/trigger_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -12,9 +12,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SaveDataPage(),
-    );
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          // primaryColor: primaryColor,
+          // canvasColor: canvasColor,
+          // scaffoldBackgroundColor: scaffoldBackgroundColor,
+          textTheme: const TextTheme(
+            headlineSmall: TextStyle(
+              color: Colors.white,
+              fontSize: 46,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
+        home: TriggerPage());
   }
 }
