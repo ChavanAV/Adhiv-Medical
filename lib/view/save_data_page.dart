@@ -1,5 +1,7 @@
 import 'package:adhiv_medical/controller/save_data.dart';
 import 'package:adhiv_medical/util/custom_tf.dart';
+import 'package:adhiv_medical/util/date_selector.dart';
+import 'package:adhiv_medical/util/drop_down_input_tf.dart';
 import 'package:flutter/material.dart';
 
 import '../controller/db_helper.dart';
@@ -15,9 +17,11 @@ class SaveDataPage extends StatefulWidget {
 }
 
 class _SaveDataPageState extends State<SaveDataPage> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController rateController = TextEditingController();
-  final TextEditingController stockController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _rateController = TextEditingController();
+  final TextEditingController _stockController = TextEditingController();
+  final TextEditingController _batchController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
   final DBHelper databaseHelper = DBHelper();
   final SaveData saveData = SaveData();
 
@@ -30,6 +34,7 @@ class _SaveDataPageState extends State<SaveDataPage> {
   Future<void> _showConfirmationDialog() async {
     showAlertDialog(
       context,
+      // () => saveData.save1000Product(),
       () => _saveProduct(),
       () => Navigator.pop(context),
     );
@@ -37,9 +42,9 @@ class _SaveDataPageState extends State<SaveDataPage> {
 
   Future<void> _saveProduct() async {
     final int res = await saveData.addProduct(
-      nameController,
-      rateController,
-      stockController,
+      _nameController,
+      _rateController,
+      _stockController,
       databaseHelper,
       context,
     );
@@ -69,36 +74,116 @@ class _SaveDataPageState extends State<SaveDataPage> {
         ),
         backgroundColor: accentCanvasColor,
       ),
-      body: Center(
-        child: Container(
-          width: 600,
-          height: 400,
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              FetchAndAddProductNameTF(controller: nameController),
-              const SizedBox(height: 30),
-              _buildCustomTextField(rateController, "Rate"),
-              const SizedBox(height: 30),
-              _buildCustomTextField(stockController, "Stock"),
-              const SizedBox(height: 30),
-              _buildSaveButton(),
-            ],
-          ),
+      body: Container(
+        // width: 600,
+        // height: 400,
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTextField(
+                  controller: _rateController,
+                  labelText: 'Product Code',
+                  height: 40,
+                  width: 200,
+                ),
+                // const SizedBox(height: 30),
+                Flexible(
+                  child: SizedBox(
+                    width: 300,
+                    height: 40,
+                    child: FetchAndAddListTF(
+                        labelName: "Product Name", controller: _nameController),
+                  ),
+                ),
+                // const SizedBox(height: 30),
+                DropdownTextField(
+                  items: const ['Generale'],
+                  labelText: "Category",
+                  controller: _rateController,
+                  height: 40,
+                  width: 150,
+                ),
+
+                CustomTextField(
+                  controller: _rateController,
+                  labelText: 'HSN Code',
+                  height: 40,
+                  width: 200,
+                ),
+                CustomTextField(
+                  controller: _rateController,
+                  labelText: 'Purchase Rate',
+                  height: 40,
+                  width: 100,
+                ),
+              ],
+            ),
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DropdownTextField(
+                  items: const ['Tab', 'Strip', 'PCS'],
+                  labelText: "Main Unit",
+                  controller: _rateController,
+                  height: 40,
+                  width: 150,
+                ),
+                DropdownTextField(
+                  items: const ['Tab', 'Strip', 'PCS'],
+                  labelText: "Alter Unit",
+                  controller: _rateController,
+                  height: 40,
+                  width: 150,
+                ),
+                // const SizedBox(height: 30),
+                CustomTextField(
+                  controller: _stockController,
+                  labelText: 'Conversion Value',
+                  height: 40,
+                  width: 100,
+                ),
+                CustomTextField(
+                  controller: _stockController,
+                  labelText: 'Stock',
+                  height: 40,
+                  width: 100,
+                ),
+                const SizedBox(height: 30),
+                CustomTextField(
+                  controller: _batchController,
+                  labelText: 'Batch No.',
+                  height: 40,
+                  width: 200,
+                ),
+              ],
+            ),
+            const SizedBox(height: 30),
+            DateSelector(dateController: _dateController),
+            const SizedBox(height: 30),
+            _buildSaveButton(),
+          ],
         ),
       ),
     );
   }
-
-  Widget _buildCustomTextField(
-      TextEditingController controller, String labelText) {
-    return CustomTextField(
-      controller: controller,
-      labelText: labelText,
-      hintText: labelText,
-    );
-  }
+  //
+  // Widget _buildCustomTextField({required TextEditingController controller,
+  //     required String labelText, double? height, double? width}) {
+  //   return CustomTextField(
+  //     controller: controller,
+  //     labelText: labelText,
+  //     height: height,
+  //     width: width,
+  //   );
+  // }
 
   Widget _buildSaveButton() {
     return Row(

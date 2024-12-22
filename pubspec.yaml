@@ -45,7 +45,8 @@ dependencies:
   sidebarx: ^0.17.1
   drop_down_search_field: ^1.0.6
   dropdown_search: ^6.0.1
-
+  calendar_date_picker2: ^1.1.7
+  responsive_table: ^0.2.0+2
 
 dev_dependencies:
   flutter_test:

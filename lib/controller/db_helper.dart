@@ -1,4 +1,3 @@
-import 'dart:io' as io;
 import 'dart:io';
 
 import 'package:csv/csv.dart';
@@ -118,44 +117,44 @@ class DBHelper {
   ////////////////////////////////////////////////////////////////////////
 
   /// below is old code not used further
-
-  Future<void> initDatabase() async {
-    late Database empDb;
-    // var databaseFactory = databaseFactoryFfi;
-    late io.Directory appDocumentsDir;
-
-    if (io.Platform.isWindows) {
-      appDocumentsDir = io.Directory.current;
-    } else {
-      appDocumentsDir = await io.Directory.systemTemp;
-    }
-
-    String dbPath = path.join(appDocumentsDir.path, "databases", "empDb.db");
-    empDb = await databaseFactory.openDatabase(dbPath);
-
-    // await empDb.execute('DROP TABLE IF EXISTS emp');
-
-    var tables = await empDb.query("sqlite_master",
-        where: "type = 'table' AND name = 'emp'");
-    if (tables.isEmpty) {
-      await empDb.execute('''
-        CREATE TABLE emp (
-          // id INTEGER PRIMARY KEY,
-          name TEXT,
-          date TEXT,
-          rate INTEGER,
-          stock INTEGER,
-          currentStock INTEGER,
-          outStock INTEGER
-        )
-      ''');
-    }
-    // return empDb;
-  }
+  //
+  // Future<void> initDatabase() async {
+  //   late Database empDb;
+  //   // var databaseFactory = databaseFactoryFfi;
+  //   late io.Directory appDocumentsDir;
+  //
+  //   if (io.Platform.isWindows) {
+  //     appDocumentsDir = io.Directory.current;
+  //   } else {
+  //     appDocumentsDir = await io.Directory.systemTemp;
+  //   }
+  //
+  //   String dbPath = path.join(appDocumentsDir.path, "databases", "empDb.db");
+  //   empDb = await databaseFactory.openDatabase(dbPath);
+  //
+  //   // await empDb.execute('DROP TABLE IF EXISTS emp');
+  //
+  //   var tables = await empDb.query("sqlite_master",
+  //       where: "type = 'table' AND name = 'emp'");
+  //   if (tables.isEmpty) {
+  //     await empDb.execute('''
+  //       CREATE TABLE emp (
+  //         // id INTEGER PRIMARY KEY,
+  //         name TEXT,
+  //         date TEXT,
+  //         rate INTEGER,
+  //         stock INTEGER,
+  //         currentStock INTEGER,
+  //         outStock INTEGER
+  //       )
+  //     ''');
+  //   }
+  //   // return empDb;
+  // }
 
   Future<void> exportToPDFAndCSV(String filePath, product) async {
     // Retrieve data from the 'emp' table (replace with your actual table)
-    await initDatabase();
+    await initDb();
     List<Product> data = await product;
     // await empDb.query('emp', where: "'id' = 10");
 

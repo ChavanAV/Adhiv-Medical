@@ -238,34 +238,82 @@ class _ShowTableDataState extends State<ShowTableData> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
+          }
+          if (snapshot.hasError) {
             return const Center(child: Text('Something went wrong!'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('No products found.'));
           } else {
             final List<Product> products = snapshot.data!;
-            return ListView.builder(
-              itemCount: products.length,
-              itemBuilder: (context, index) {
-                final product = products[index];
-                return ListTile(
-                  title: Text(product.name),
-                  subtitle:
-                      Text('Date: ${product.date}\nRate: ${product.rate}'),
-                  trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Stock: ${product.stock}'),
-                      Text('Current Stock: ${product.currentStock}'),
-                      Text('Out Stock: ${product.outStock}'),
-                    ],
+            return Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TableRowContainer(text: 'Name', style: tableHeaderTS),
+                    TableRowContainer(text: 'Rate', style: tableHeaderTS),
+                    TableRowContainer(text: 'Stock', style: tableHeaderTS),
+                    TableRowContainer(
+                        text: 'Current Stock', style: tableHeaderTS),
+                    TableRowContainer(text: 'Out Stock', style: tableHeaderTS),
+                    TableRowContainer(text: 'Date', style: tableHeaderTS),
+                  ],
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      final product = products[index];
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TableRowContainer(
+                              text: product.name, style: tableRowTS),
+                          TableRowContainer(
+                              text: product.rate.toString(), style: tableRowTS),
+                          TableRowContainer(
+                              text: product.stock.toString(),
+                              style: tableRowTS),
+                          TableRowContainer(
+                              text: product.currentStock.toString(),
+                              style: tableRowTS),
+                          TableRowContainer(
+                              text: product.outStock.toString(),
+                              style: tableRowTS),
+                          TableRowContainer(
+                              text: product.date.toString(), style: tableRowTS),
+                        ],
+                      );
+                    },
                   ),
-                );
-              },
+                ),
+              ],
             );
           }
         },
       ),
+    );
+  }
+}
+
+class TableRowContainer extends StatelessWidget {
+  final String text;
+  final TextStyle style;
+  const TableRowContainer({
+    super.key,
+    required this.text,
+    required this.style,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 30,
+      width: 200,
+      alignment: Alignment.center,
+      decoration: const BoxDecoration(
+          border: Border(bottom: BorderSide(color: Colors.black))),
+      child: Text(text, style: style),
     );
   }
 }

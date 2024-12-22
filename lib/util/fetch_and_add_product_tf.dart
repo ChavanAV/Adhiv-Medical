@@ -4,16 +4,17 @@ import 'package:flutter/material.dart';
 
 import 'decoration.dart';
 
-class FetchAndAddProductNameTF extends StatefulWidget {
+class FetchAndAddListTF extends StatefulWidget {
   final TextEditingController controller;
-  const FetchAndAddProductNameTF({super.key, required this.controller});
+  final String labelName;
+  const FetchAndAddListTF(
+      {super.key, required this.controller, required this.labelName});
 
   @override
-  _FetchAndAddProductNameTFState createState() =>
-      _FetchAndAddProductNameTFState();
+  _FetchAndAddListTFState createState() => _FetchAndAddListTFState();
 }
 
-class _FetchAndAddProductNameTFState extends State<FetchAndAddProductNameTF> {
+class _FetchAndAddListTFState extends State<FetchAndAddListTF> {
   List<String> names = [];
   SuggestionsBoxController suggestionBoxController = SuggestionsBoxController();
   DBHelper dbHelper = DBHelper();
@@ -42,52 +43,69 @@ class _FetchAndAddProductNameTFState extends State<FetchAndAddProductNameTF> {
       onTap: () {
         suggestionBoxController.close();
       },
-      child: DropDownSearchFormField(
-        textFieldConfiguration: TextFieldConfiguration(
-          decoration: InputDecoration(
-            labelText: "labelText",
-            hintText: "hintText",
-            filled: true,
-            fillColor: Colors.grey[200],
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: const BorderSide(
-                color: primaryColor,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+              width: labelAndTFSpacing,
+              child: Text(
+                widget.labelName,
+                style: labelTS,
+              )),
+          Flexible(
+            child: SizedBox(
+              height: 30,
+              width: 300,
+              child: DropDownSearchFormField(
+                textFieldConfiguration: TextFieldConfiguration(
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                      borderSide: const BorderSide(
+                        color: primaryColor,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                      borderSide: const BorderSide(
+                        color: primaryColor,
+                      ),
+                    ),
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 10.0),
+                  ),
+                  controller: widget.controller,
+                ),
+                suggestionsCallback: (pattern) {
+                  return getSuggestions(pattern);
+                },
+                itemBuilder: (context, String suggestion) {
+                  return ListTile(
+                    title: Text(suggestion),
+                  );
+                },
+                itemSeparatorBuilder: (context, index) {
+                  return const Divider();
+                },
+                transitionBuilder: (context, suggestionsBox, controller) {
+                  return suggestionsBox;
+                },
+                onSuggestionSelected: (String suggestion) {
+                  setState(() {
+                    widget.controller.text = suggestion;
+                  });
+                },
+                suggestionsBoxController: suggestionBoxController,
+                validator: (value) =>
+                    value!.isEmpty ? 'Please select a name' : null,
+                displayAllSuggestionWhenTap: true,
               ),
             ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: const BorderSide(
-                color: primaryColor,
-              ),
-            ),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
           ),
-          controller: widget.controller,
-        ),
-        suggestionsCallback: (pattern) {
-          return getSuggestions(pattern);
-        },
-        itemBuilder: (context, String suggestion) {
-          return ListTile(
-            title: Text(suggestion),
-          );
-        },
-        itemSeparatorBuilder: (context, index) {
-          return const Divider();
-        },
-        transitionBuilder: (context, suggestionsBox, controller) {
-          return suggestionsBox;
-        },
-        onSuggestionSelected: (String suggestion) {
-          setState(() {
-            widget.controller.text = suggestion;
-          });
-        },
-        suggestionsBoxController: suggestionBoxController,
-        validator: (value) => value!.isEmpty ? 'Please select a name' : null,
-        displayAllSuggestionWhenTap: true,
+        ],
       ),
     );
   }

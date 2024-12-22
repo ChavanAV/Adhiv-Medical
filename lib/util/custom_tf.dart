@@ -3,45 +3,57 @@ import 'package:flutter/material.dart';
 import 'decoration.dart';
 
 class CustomTextField extends StatelessWidget {
-  final String labelText;
-  final String hintText;
+  final String? labelText;
+  final String? hintText;
   final TextEditingController controller;
   final bool isPasswordField;
+  final double? height;
+  final double? width;
+  final void Function()? onTap;
+  final IconButton? suffixIcon;
 
-  CustomTextField({
+  const CustomTextField({
     Key? key,
-    required this.labelText,
-    required this.hintText,
+    this.labelText,
+    this.hintText,
     this.isPasswordField = false,
     required this.controller,
+    this.onTap,
+    this.height,
+    this.width,
+    this.suffixIcon,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      obscureText: isPasswordField, // Hide text if it's a password field
-      decoration: InputDecoration(
-        labelText: labelText, // Floating label text
-        hintText: hintText, // Placeholder text
-        filled: true, // Background filled with color
-        fillColor: Colors.grey[200], // Set the fill color of the TextField
-        enabledBorder: OutlineInputBorder(
-          // Border when TextField is not focused
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: const BorderSide(
-            color: primaryColor,
+    return SizedBox(
+      height: height,
+      width: width,
+      child: TextField(
+        controller: controller,
+        obscureText: isPasswordField,
+        decoration: InputDecoration(
+          labelText: labelText,
+          hintText: hintText,
+          filled: true,
+          suffixIcon: suffixIcon,
+          fillColor: Colors.grey[200],
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide: const BorderSide(
+              color: primaryColor,
+            ),
           ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          // Border when TextField is focused
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: const BorderSide(
-            color: primaryColor,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5.0),
+            borderSide: const BorderSide(
+              color: primaryColor,
+            ),
           ),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3),
         ),
-        contentPadding: const EdgeInsets.symmetric(
-            vertical: 16.0, horizontal: 20.0), // Padding inside the TextField
+        onTap: () => onTap!(),
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:adhiv_medical/util/my_sidebar.dart';
-import 'package:adhiv_medical/view/product_list_page.dart';
 import 'package:adhiv_medical/view/save_data_page.dart';
 import 'package:adhiv_medical/view/show_table_data.dart';
+import 'package:adhiv_medical/view/temp.dart';
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 
@@ -13,7 +13,9 @@ class TriggerPage extends StatelessWidget {
   final _controller = SidebarXController(selectedIndex: 0, extended: true);
   final _key = GlobalKey<ScaffoldState>();
   final screens = [
-    ProductListPage(),
+    // ProductListPage(),
+    ProductEntryForm(),
+    // DataPage(),
     ShowTableData(),
     SaveDataPage(),
     MkReceiptPage(),
